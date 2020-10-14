@@ -69,7 +69,7 @@ def model_form(entity: EntityMeta, base_class=FlaskForm, allow_pk=False, only=No
     """
     field_dict = model_fields(entity, allow_pk=allow_pk, only=only,
                               exclude=exclude, field_args=field_args, converter=converter)
-    if submit_kwargs.pop("submit"):
+    if submit_kwargs.pop("submit", False):
         name = submit_kwargs.get("name", "Submit")
         
         field_dict[name] = SubmitField(**submit_kwargs)
