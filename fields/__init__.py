@@ -16,3 +16,6 @@ from .time_fields import WPDateTimeField
 from .list_fields import StrListField
 from .list_fields import IntListField
 from .list_fields import FloatListField
+
+
+from .json_field import JSONField
