@@ -1,9 +1,4 @@
 
-
-"""
-Useful form fields for use with the Peewee ORM.
-(cribbed from wtforms.ext.django.fields)
-"""
 from . import ChosenSelectWidget
 from .._compact import string_types
 import datetime
