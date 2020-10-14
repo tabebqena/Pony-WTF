@@ -2,8 +2,7 @@
 from pony.orm import db_session
 from ._compact import text_type
 from wtforms import validators
-from typing import Type
-from pony.orm.core import Attribute, Entity, EntityMeta
+from pony.orm.core import  EntityMeta
 
 
 
