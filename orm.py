@@ -1,6 +1,6 @@
 from wtforms.fields.simple import SubmitField
 from .utils import get_attrs
-from .model_converter import ModelConverter
+from .converter import ModelConverter
 from flask_wtf import FlaskForm
 from pony.orm.core import (
     EntityMeta
@@ -19,7 +19,6 @@ def model_fields(entity: EntityMeta, allow_pk=False, only=None, exclude=None, fi
     attrs = get_attrs(entity).copy()
 
     if not allow_pk:
-        #model_fields.pop(0)
         for a in attrs:
             if a.is_pk:
                 attrs.remove(a)
@@ -31,15 +30,10 @@ def model_fields(entity: EntityMeta, allow_pk=False, only=None, exclude=None, fi
 
     field_dict = {}
     for attr in attrs:
-        #print ("convert", attr.name)
         name, field = converter.convert(
             entity,
             attr,
             field_args.get(attr.name))
-        #print ( "model form", "50",name , field)
-        #print (field)
-        
-        #print ("field",field)
         field_dict[name] = field
 
     return field_dict
@@ -69,12 +63,15 @@ def model_form(entity: EntityMeta, base_class=FlaskForm, allow_pk=False, only=No
     :param converter:
         A converter to generate the fields based on the entity properties. If
         not set, ``ModelConverter`` is used.
+    :submit_kwargs:
+        Add kwargs dictionary to create submit button on the form.
+        the dictionary should contain key `submit` with Truthy value
     """
-    field_dict = model_fields(entity, allow_pk, only,
-                              exclude, field_args, converter)
-    #print ("field dict", field_dict)
-    if submit_kwargs:
+    field_dict = model_fields(entity, allow_pk=allow_pk, only=only,
+                              exclude=exclude, field_args=field_args, converter=converter)
+    if submit_kwargs.pop("submit"):
         name = submit_kwargs.get("name", "Submit")
+        
         field_dict[name] = SubmitField(**submit_kwargs)
     
     return type(entity.__name__ + 'Form', (base_class, ), field_dict)

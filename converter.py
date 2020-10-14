@@ -107,9 +107,6 @@ class ModelConverter(object):
     
     def is_filter_allowed(self, field, kwargs):
         if issubclass(field,  wtf_fields.FormField):
-            #print("66")
-            # FormField fields (i.e. for nested forms) do not support
-            # filters.
             kwargs.pop('filters')    
     
     def build_kwargs(self, entity, attr, field_args):        
@@ -121,10 +118,8 @@ class ModelConverter(object):
             'default': attr.default,
             #'description': attr.help_text
         }
-        print("field_args", field_args)
         if field_args:
             kwargs.update(field_args)
-        print ("kwargs after update", kwargs, field_args)
         #  {"validators": [Email], "only_validators": True }
         if  not kwargs.pop("only_validators", False):
             self.set_required_validator(attr, kwargs)
@@ -215,10 +210,7 @@ class ModelConverter(object):
         
         try:           
             converter = default_converters[attr.py_type]
-            print(attr.name, converter , kwargs)
-            #print("converter ", converter, attr.py_type)
         except Exception:
             raise AttributeError("There is not possible conversion for '%s' " % type(attr.py_type))
         self.is_filter_allowed( converter, kwargs)
-        #print ("kwargs", kwargs)
         return FieldInfo(attr.name, converter(**kwargs))
