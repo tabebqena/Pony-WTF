@@ -20,7 +20,11 @@ class ChosenSelectWidget(widgets.Select):
 
 
 class JsonWidgetBase(object):
-    
+    """Simply widjet to display Json
+
+    :param object: [description]
+    :type object: [type]
+    """
     def __init__(self, *args, **kwargs) -> None:
         self.args = args
         self.kwargs = kwargs
@@ -31,9 +35,6 @@ class JsonWidgetBase(object):
         
         kwargs.setdefault('id', field.id)
         html = [
-            # read file embed its content
-            # or create url_for
-            # <style> + file content + </style>
             """<!-- You should include jsonTree, jsonCss
             download it  from
             https://raw.githubusercontent.com/summerstyle/jsonTreeViewer/master/libs/jsonTree/jsonTree.js
@@ -43,8 +44,6 @@ class JsonWidgetBase(object):
             "<script src ='libs/jsonTree/jsonTree.js' ></script>" */ -->
             """
         ]
-        # render the select
-        # html.append(super(JsonWidget, self).__call__(field, **kwargs))
         if 'required' not in kwargs and 'required' in getattr(field, 'flags', []):
             kwargs['required'] = True
         
@@ -82,13 +81,17 @@ class JsonWidgetBase(object):
             )
             </script>\n""")
         
-        # return the HTML (as safe markup)
+        # no MarkUp  here
+        # TODO Is that safe
         return'\n'.join(html)
 
     
 class JsonWidget(JsonWidgetBase):
     def __init__(self, *args, **kwargs) -> None:
         if not kwargs.get("rows"):
-            kwargs["rows"]=20
+            kwargs["rows"] = 20
         
+        if not kwargs.get("indent"):
+            kwargs["indent"] = 4
+
         super(JsonWidget, self).__init__(args, kwargs)
