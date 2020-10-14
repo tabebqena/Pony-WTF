@@ -14,13 +14,12 @@ from wtforms.fields.core import DecimalField, FloatField, IntegerField, StringFi
 from wtforms.fields.html5 import DateField, DateTimeField, TimeField
 from wtforms.fields.simple import TextAreaField
 
-from pony_wtf.fields.json_field import JSONField
+
 
 from ._compact import text_type
 from .fields import (BooleanSelectField, FloatListField, IntListField,
                      ModelSelectField, ModelSelectMultipleField,
-                     SelectChoicesField, StrListField, WPDateField,
-                     WPDateTimeField, WPTimeField)
+                     SelectChoicesField, StrListField, JSONField)
 from .utils import get_attr_entity_class,  UniqueValidator, ValueRequired
 
 FieldInfo = namedtuple('FieldInfo', ('name', 'field'))
