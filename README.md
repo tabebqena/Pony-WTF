@@ -1,4 +1,5 @@
 # Pony-WTF
+# This package is dead prematurely, still you can use in your own responsibility. PR is most welcomed
 
 Pony-WTF is an integration library for Ponyorm and WTF-Forms.
 
